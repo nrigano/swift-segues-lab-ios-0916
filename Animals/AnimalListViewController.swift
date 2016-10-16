@@ -21,9 +21,17 @@ class AnimalListViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "animalCell", for: indexPath)
-        let animalName = animalList[indexPath.row]
-        cell.textLabel?.text = animalName
+        let animal = animalList[(indexPath as NSIndexPath).row]
+        cell.textLabel?.text = animal
         return cell
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier != "AnimalDetailView" { return }
+        if let dest = segue.destination as? AnimalViewController,
+            let indexPath = tableView.indexPathForSelectedRow {
+            dest.animal = animalList[(indexPath as NSIndexPath).row]
+        }
     }
     
 }
